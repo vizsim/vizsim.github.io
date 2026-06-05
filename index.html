@@ -91,7 +91,10 @@
       font-weight: 500;
     }
 
-    .name { position: relative; }
+    .name {
+      position: relative;
+      cursor: pointer;
+    }
 
     .name-photo {
       position: absolute;
@@ -131,6 +134,11 @@
         opacity: 1;
         transform: translateX(-50%) translateY(0) scale(1);
       }
+    }
+
+    .name.is-open .name-photo {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
     }
 
     .lede {
@@ -413,6 +421,18 @@
       }
       buttons.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
     });
+  </script>
+
+  <script>
+    // Tap-to-toggle für Touch-Geräte (dort gibt es kein Hover)
+    const nameEl = document.querySelector(".name");
+    if (nameEl) {
+      nameEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nameEl.classList.toggle("is-open");
+      });
+      document.addEventListener("click", () => nameEl.classList.remove("is-open"));
+    }
   </script>
 </body>
 </html>
