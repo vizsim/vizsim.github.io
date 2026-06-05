@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
 
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
+
   <style>
     :root {
       --paper: #ffffff;
@@ -179,6 +181,21 @@
       color: var(--muted);
     }
 
+    #globe {
+      width: 100%;
+      max-width: 22rem;
+      margin: 0.25rem auto 0;
+      aspect-ratio: 1 / 1;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      background: transparent;
+      cursor: grab;
+    }
+
+    #globe:active { cursor: grabbing; }
+
+    #globe .maplibregl-canvas { outline: none; }
+
     @media (max-width: 860px) {
       .page {
         min-height: auto;
@@ -207,11 +224,11 @@
         schön, dass du da bist.</h1>
 
       <p class="lede">
-        Hier sammeln sich Projekte, Skizzen und Ideen.
+        Hier sammeln sich Projekte und Ideen.
       </p>
 
       <p>
-        Seit einigen Jahren arbeite ich an Verkehrsanalysen und Simulationen — und ebenso an Datenvisualisierung und Webanwendungen, in der Hoffnung, einen Beitrag für eine nachhaltigere Mobilität zu leisten.
+        Seit einigen Jahren arbeite ich an Verkehrsanalysen, Simulationen und Datenvisualisierung, in der Hoffnung, einen Beitrag für eine nachhaltigere Mobilität zu leisten.
       </p>
 
       <p>
@@ -219,6 +236,64 @@
         <a href="https://github.com/vizsim">GitHub</a>.
       </p>
     </main>
+
+    <aside>
+      <p class="panel-label">Irgendwo da draußen</p>
+      <div id="globe" aria-hidden="true"></div>
+      <p class="footnote">Zum Drehen ziehen. Umrisse: Natural Earth.</p>
+    </aside>
   </div>
+
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script>
+    const style = {
+      version: 8,
+      projection: { type: "globe" },
+      sources: {
+        land: { type: "geojson", data: "land-110m.geojson" }
+      },
+      layers: [
+        { id: "ocean", type: "background", paint: { "background-color": "#efe7d8" } },
+        { id: "land", type: "fill", source: "land", paint: { "fill-color": "#6d665d" } },
+        { id: "coast", type: "line", source: "land",
+          paint: { "line-color": "#9a3b2e", "line-width": 0.6, "line-opacity": 0.8 } }
+      ]
+    };
+
+    const map = new maplibregl.Map({
+      container: "globe",
+      style,
+      center: [10, 25],
+      zoom: 0,
+      minZoom: 0,
+      maxZoom: 0,
+      attributionControl: false,
+      dragRotate: false,
+      pitchWithRotate: false,
+      scrollZoom: false,
+      doubleClickZoom: false,
+      touchZoomRotate: false,
+      keyboard: false
+    });
+
+    // Sanfte Auto-Rotation, pausiert beim Ziehen
+    const secondsPerRevolution = 160;
+    let userInteracting = false;
+
+    function spinGlobe() {
+      if (userInteracting) return;
+      const center = map.getCenter();
+      center.lng -= 360 / secondsPerRevolution;
+      map.easeTo({ center, duration: 1000, easing: (n) => n });
+    }
+
+    map.on("mousedown", () => { userInteracting = true; });
+    map.on("dragstart", () => { userInteracting = true; });
+    map.on("mouseup", () => { userInteracting = false; spinGlobe(); });
+    map.on("touchend", () => { userInteracting = false; spinGlobe(); });
+    map.on("moveend", () => { spinGlobe(); });
+
+    map.on("load", () => { map.resize(); spinGlobe(); });
+  </script>
 </body>
 </html>
