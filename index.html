@@ -130,9 +130,13 @@
     }
 
     aside {
+      width: 100%;
+      max-width: 22rem;
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
       border: 1px solid var(--rule);
       border-radius: 2rem;
-      padding: clamp(1.5rem, 3vw, 2.2rem);
+      padding: clamp(0.9rem, 2vw, 1.3rem);
       background: var(--surface);
       box-shadow: var(--shadow);
       animation: rise 1.05s cubic-bezier(0.2, 0.7, 0.2, 1) both;
@@ -183,9 +187,7 @@
 
     #globe {
       width: 100%;
-      max-width: 22rem;
-      margin: 0.25rem auto 0;
-      aspect-ratio: 1 / 1;
+      height: 100%;
       border-radius: 1.25rem;
       overflow: hidden;
       background: transparent;
@@ -238,9 +240,7 @@
     </main>
 
     <aside>
-      <p class="panel-label">Irgendwo da draußen</p>
       <div id="globe" aria-hidden="true"></div>
-      <p class="footnote">Zum Drehen ziehen. Umrisse: Natural Earth.</p>
     </aside>
   </div>
 
@@ -254,9 +254,7 @@
       },
       layers: [
         { id: "ocean", type: "background", paint: { "background-color": "#efe7d8" } },
-        { id: "land", type: "fill", source: "land", paint: { "fill-color": "#6d665d" } },
-        { id: "coast", type: "line", source: "land",
-          paint: { "line-color": "#9a3b2e", "line-width": 0.6, "line-opacity": 0.8 } }
+        { id: "land", type: "fill", source: "land", paint: { "fill-color": "#6d665d" } }
       ]
     };
 
@@ -264,9 +262,9 @@
       container: "globe",
       style,
       center: [10, 25],
-      zoom: 0,
-      minZoom: 0,
-      maxZoom: 0,
+      zoom: 0.7,
+      minZoom: 0.7,
+      maxZoom: 0.7,
       attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false,
