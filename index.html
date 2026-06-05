@@ -35,14 +35,14 @@
       font-weight: 400;
       font-size: 1.18rem;
       line-height: 1.7;
-      min-height: 100vh;
+      min-height: 100dvh;
       padding: clamp(1.5rem, 3vw, 2.5rem);
     }
 
     .page {
       max-width: 72rem;
       margin: 0 auto;
-      min-height: calc(100vh - 3rem);
+      min-height: calc(100dvh - clamp(3rem, 6vw, 5rem));
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.9fr);
       gap: clamp(2rem, 5vw, 5rem);
@@ -89,6 +89,48 @@
     h1 em {
       font-style: italic;
       font-weight: 500;
+    }
+
+    .name { position: relative; }
+
+    .name-photo {
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      margin-bottom: -0.5rem;
+      width: clamp(5.5rem, 8vw, 8rem);
+      height: clamp(5.5rem, 8vw, 8rem);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--surface);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateX(-50%) translateY(0.5rem) scale(0.92);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .name-photo-img {
+      position: absolute;
+      inset: -3%;
+      background-color: var(--rule);
+      background-image: url("foto_vizsim.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      animation: portrait-spin 120s linear infinite;
+    }
+
+    @keyframes portrait-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (hover: hover) {
+      .name:hover .name-photo {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
     }
 
     .lede {
@@ -252,6 +294,10 @@
         max-width: none;
       }
 
+      .name-photo {
+        margin-bottom: -1.rem;
+      }
+
       aside {
         border-radius: 1.5rem;
       }
@@ -264,7 +310,7 @@
     <main>
 
       <h1>hi, <br>
-        ich bin <em>vizsim</em> —
+        ich bin <em class="name">vizsim<span class="name-photo" aria-hidden="true"><span class="name-photo-img"></span></span></em> —
         schön, dass du da bist.</h1>
 
       <p class="lede">
