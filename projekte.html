@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Projekte und Ideen — vizsim</title>
+  <meta name="description" content="Ausgewählte Projekte von vizsim rund um Verkehr, Karten und Datenvisualisierung.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #ffffff;
+      --surface: #ffffff;
+      --ink: #1b1814;
+      --muted: #6d665d;
+      --accent: #9a3b2e;
+      --rule: #e8e1d7;
+      --shadow: 0 24px 70px rgba(27, 24, 20, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Newsreader", Georgia, serif;
+      font-weight: 400;
+      font-size: 1.18rem;
+      line-height: 1.7;
+      min-height: 100dvh;
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    a {
+      color: var(--ink);
+      text-decoration: none;
+      background-color: rgba(154, 59, 46, 0.1);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      padding: 0.04em 0.22em;
+      border-radius: 0.3em;
+      transition: color 0.25s ease, background-color 0.25s ease;
+    }
+
+    a:hover {
+      color: var(--paper);
+      background-color: var(--accent);
+    }
+
+    .wrap {
+      max-width: 64rem;
+      margin: 0 auto;
+      animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    }
+
+    .topbar {
+      margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    }
+
+    .back {
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      color: var(--muted);
+      font-family: "Fraunces", serif;
+      font-size: 0.95rem;
+    }
+
+    .back:hover {
+      background: none;
+      color: var(--accent);
+    }
+
+    .intro {
+      margin-bottom: clamp(3rem, 8vw, 5.5rem);
+      max-width: 40rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.3rem;
+      font-family: "Fraunces", serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 3.5rem;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    h1 {
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.3rem;
+    }
+
+    .lede {
+      font-size: clamp(1.18rem, 1.3vw, 1.4rem);
+      color: var(--muted);
+    }
+
+    .projects {
+      display: grid;
+      gap: clamp(3.5rem, 9vw, 6.5rem);
+    }
+
+    .project {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+    }
+
+    .project:nth-child(even) .project-media { order: 2; }
+
+    .project-media {
+      aspect-ratio: 16 / 10;
+      border-radius: 1.5rem;
+      border: 1px solid var(--rule);
+      box-shadow: var(--shadow);
+      background-color: var(--surface);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .project-media.contain {
+      background-size: contain;
+    }
+
+    .project-index {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.7rem;
+    }
+
+    h2 {
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
+    }
+
+    .project-body p {
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+      max-width: 40ch;
+    }
+
+    .tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .tags li {
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: "Fraunces", serif;
+      background: var(--surface);
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      font-family: "Fraunces", serif;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: clamp(4rem, 9vw, 6.5rem);
+      padding-top: 1.6rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    @media (max-width: 760px) {
+      .project {
+        grid-template-columns: 1fr;
+        gap: 1.4rem;
+      }
+
+      .project:nth-child(even) .project-media { order: 0; }
+
+      .project-media {
+        aspect-ratio: 16 / 10;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <nav class="topbar">
+      <a class="back" href="index.html">← home</a>
+    </nav>
+
+    <header class="intro">
+      <h1>Projekte und Ideen</h1>
+      <p class="lede">
+        Eine Auswahl laufender Arbeiten rund um Verkehr, Karten und Datenvisualisierung.
+      </p>
+    </header>
+
+    <main class="projects">
+
+      <article class="project">
+        <div class="project-media" role="img" aria-label="Vorschau: Unfallkarte"
+             style="background-image: url('assets/projects/unfallkarte.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
+        <div class="project-body">
+          <span class="project-index">01</span>
+          <h2>Unfallkarte</h2>
+          <p>
+            Eine interaktive Karte von polizeilich erfassten Verkehrsunfällen in Deutschland,
+            auf Basis der Daten des Statistischen Bundesamts — filterbar nach Jahr, Beteiligten
+            und Schwere, erkundbar bis hinunter auf die einzelne Straße.
+          </p>
+          <ul class="tags">
+            <li>Unfalldaten</li>
+            <li>Destatis</li>
+            <li>Analyse</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/unfallkarte" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.github.io/unfallkarte/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-media" role="img" aria-label="Vorschau: gradients2osm"
+             style="background-image: url('assets/projects/gradients2osm.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
+        <div class="project-body">
+          <span class="project-index">02</span>
+          <h2>gradients2osm</h2>
+          <p>
+            Berechnet Steigungen und Höhenmeter für OpenStreetMap-Wege aus digitalen
+            Höhenmodellen — die Datengrundlage für ein Routing, das Anstiege ernst nimmt.
+            Streaming-Verarbeitung mit pyosmium und rasterio.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>rasterio</li>
+            <li>OSM</li>
+            <li>Höhendaten</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/gradients2osm" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.github.io/gradients2osm/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-media contain" role="img" aria-label="Vorschau: Pseudo-Luftbild — orthorektifiziertes Fahrbahn-Mosaik"
+             style="background-image: url('assets/projects/pseudo-luftbild.jpg');"></div>
+        <div class="project-body">
+          <span class="project-index">03</span>
+          <h2>Pseudo-Luftbild</h2>
+          <p>
+            Verwandelt Mapillary-Straßenbilder in orthorektifizierte „Luftbilder" der Fahrbahn.
+            Aus Structure-from-Motion-Rekonstruktionen entstehen georeferenzierte Mosaike, die
+            Markierungen, Radwege und Beläge genauer als echte Luftbilder zeigen können.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>OpenSfM</li>
+            <li>Mapillary</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/pseudo-luftbild" target="_blank" rel="noopener noreferrer">Code</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-media" role="img" aria-label="Vorschau: Missing Mapillary Routing"
+             style="background-image: url('assets/projects/missing-mapillary.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
+        <div class="project-body">
+          <span class="project-index">04</span>
+          <h2>Missing Mapillary Router</h2>
+          <p>
+            Ein Router auf GraphHopper-Basis, der gezielt Straßen ohne Mapillary-Abdeckung
+            findet und ansteuert — damit sich Lücken in der Street-Level-Abdeckung
+            systematisch schließen lassen.
+          </p>
+          <ul class="tags">
+            <li>OSM</li>
+            <li>GraphHopper</li>
+            <li>Mapillary</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/missing_mapillary_gh-routing" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.github.io/missing_mapillary_gh-routing/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+    </main>
+
+    <footer>
+      <p>Weitere Projekte entstehen nach und nach</p>
+    </footer>
+  </div>
+</body>
+</html>
