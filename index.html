@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
 
-  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet">
 
   <style>
     :root {
@@ -185,6 +185,13 @@
       color: var(--muted);
     }
 
+    .globe-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.1rem;
+    }
+
     #globe {
       width: 100%;
       height: 100%;
@@ -197,6 +204,36 @@
     #globe:active { cursor: grabbing; }
 
     #globe .maplibregl-canvas { outline: none; }
+
+    .globe-switch {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .globe-switch button {
+      font-family: "Fraunces", serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .globe-switch button:hover {
+      color: var(--ink);
+      border-color: var(--muted);
+    }
+
+    .globe-switch button.is-active {
+      color: var(--paper);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
     @media (max-width: 860px) {
       .page {
@@ -239,22 +276,36 @@
       </p>
     </main>
 
-    <aside>
-      <div id="globe" aria-hidden="true"></div>
-    </aside>
+    <div class="globe-col">
+      <aside>
+        <div id="globe" aria-hidden="true"></div>
+      </aside>
+      <div class="globe-switch" role="group" aria-label="Globus-Ansicht">
+        <button type="button" data-mode="plain" class="is-active">Schlicht</button>
+        <button type="button" data-mode="s2">Sentinel-2</button>
+      </div>
+    </div>
   </div>
 
-  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
   <script>
     const style = {
       version: 8,
       projection: { type: "globe" },
       sources: {
-        land: { type: "geojson", data: "land-110m.geojson" }
+        land: { type: "geojson", data: "land-110m.geojson", attribution: "Natural Earth" },
+        s2: {
+          type: "raster",
+          tiles: ["https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpg"],
+          tileSize: 256,
+          maxzoom: 16,
+          attribution: "Sentinel-2 cloudless 2024 (s2maps.eu) by EOX IT Services GmbH — modified Copernicus Sentinel data 2024"
+        }
       },
       layers: [
         { id: "ocean", type: "background", paint: { "background-color": "#efe7d8" } },
-        { id: "land", type: "fill", source: "land", paint: { "fill-color": "#6d665d" } }
+        { id: "land", type: "fill", source: "land", paint: { "fill-color": "#6d665d" } },
+        { id: "sat-s2", type: "raster", source: "s2", layout: { visibility: "none" } }
       ]
     };
 
@@ -265,7 +316,7 @@
       zoom: 0.7,
       minZoom: 0.7,
       maxZoom: 0.7,
-      attributionControl: false,
+      attributionControl: { compact: true },
       dragRotate: false,
       pitchWithRotate: false,
       scrollZoom: false,
@@ -274,24 +325,43 @@
       keyboard: false
     });
 
-    // Sanfte Auto-Rotation, pausiert beim Ziehen
+    // Sanfte Auto-Rotation per rAF, pausiert beim Ziehen
     const secondsPerRevolution = 160;
+    const degPerMs = 360 / (secondsPerRevolution * 1000);
     let userInteracting = false;
+    let lastTime = null;
 
-    function spinGlobe() {
-      if (userInteracting) return;
-      const center = map.getCenter();
-      center.lng -= 360 / secondsPerRevolution;
-      map.easeTo({ center, duration: 1000, easing: (n) => n });
+    function spinFrame(time) {
+      if (userInteracting) {
+        lastTime = null;
+      } else {
+        if (lastTime !== null) {
+          const center = map.getCenter();
+          center.lng -= degPerMs * (time - lastTime);
+          map.jumpTo({ center });
+        }
+        lastTime = time;
+      }
+      requestAnimationFrame(spinFrame);
     }
 
     map.on("mousedown", () => { userInteracting = true; });
     map.on("dragstart", () => { userInteracting = true; });
-    map.on("mouseup", () => { userInteracting = false; spinGlobe(); });
-    map.on("touchend", () => { userInteracting = false; spinGlobe(); });
-    map.on("moveend", () => { spinGlobe(); });
+    map.on("touchstart", () => { userInteracting = true; });
+    map.on("mouseup", () => { userInteracting = false; });
+    map.on("touchend", () => { userInteracting = false; });
 
-    map.on("load", () => { map.resize(); spinGlobe(); });
+    map.on("load", () => {
+      map.resize();
+      requestAnimationFrame(spinFrame);
+
+      const buttons = document.querySelectorAll(".globe-switch button");
+      function setMode(mode) {
+        map.setLayoutProperty("sat-s2", "visibility", mode === "s2" ? "visible" : "none");
+        buttons.forEach((b) => b.classList.toggle("is-active", b.dataset.mode === mode));
+      }
+      buttons.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+    });
   </script>
 </body>
 </html>
