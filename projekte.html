@@ -6,12 +6,53 @@
 
   <title>Projekte und Ideen — vizsim</title>
   <meta name="description" content="Ausgewählte Projekte von vizsim rund um Verkehr, Karten und Datenvisualisierung.">
+  <link rel="canonical" href="https://vizsim.de/projekte.html">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+  <link rel="apple-touch-icon" href="assets/portrait.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vizsim.de/projekte.html">
+  <meta property="og:title" content="Projekte und Ideen — vizsim">
+  <meta property="og:description" content="Ausgewählte Projekte von vizsim rund um Verkehr, Karten und Datenvisualisierung.">
+  <meta property="og:image" content="https://vizsim.de/assets/projects/unfallkarte.jpg">
+  <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Projekte und Ideen — vizsim">
+  <meta name="twitter:description" content="Ausgewählte Projekte von vizsim rund um Verkehr, Karten und Datenvisualisierung.">
+  <meta name="twitter:image" content="https://vizsim.de/assets/projects/unfallkarte.jpg">
 
   <style>
+    /* Lokal gehostete Schriften (SIL Open Font License, siehe assets/fonts/OFL.txt) */
+    @font-face {
+      font-family: "Fraunces";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/fraunces-400.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Fraunces";
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url("assets/fonts/fraunces-500.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Fraunces";
+      font-style: italic;
+      font-weight: 500;
+      font-display: swap;
+      src: url("assets/fonts/fraunces-500italic.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Newsreader";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/newsreader-400.woff2") format("woff2");
+    }
+
     :root {
       --paper: #ffffff;
       --surface: #ffffff;
@@ -158,12 +199,48 @@
     }
 
     h2 {
+      position: relative;
       font-family: "Fraunces", serif;
       font-weight: 500;
       font-size: clamp(1.7rem, 3.5vw, 2.4rem);
       line-height: 1.05;
       letter-spacing: -0.02em;
       margin-bottom: 0.9rem;
+    }
+
+    .anchor {
+      position: absolute;
+      right: 100%;
+      top: 0.42em;
+      margin-right: 0.35em;
+      display: inline-flex;
+      padding: 0;
+      border-radius: 0.3em;
+      background: none;
+      color: var(--muted);
+      line-height: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease, color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .anchor svg {
+      width: 0.55em;
+      height: 0.55em;
+    }
+
+    .project-body:hover .anchor,
+    .anchor:focus-visible {
+      opacity: 1;
+    }
+
+    .anchor:hover {
+      color: var(--accent);
+      background: none;
+    }
+
+    @media (hover: none) {
+      .anchor { opacity: 0.55; }
     }
 
     .project-body p {
@@ -206,6 +283,21 @@
       font-size: 1rem;
     }
 
+    .footer-note {
+      margin-top: 0.5rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.85em;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 0.3em;
+      padding: 0.05em 0.3em;
+    }
+
     @media (max-width: 760px) {
       .project {
         grid-template-columns: 1fr;
@@ -224,7 +316,7 @@
 <body>
   <div class="wrap">
     <nav class="topbar">
-      <a class="back" href="index.html">← home</a>
+      <a class="back" href="/">← home</a>
     </nav>
 
     <header class="intro">
@@ -236,7 +328,7 @@
 
     <main class="projects">
 
-      <article class="project">
+      <article class="project" id="unfallkarte">
         <div class="project-media" role="img" aria-label="Vorschau: Unfallkarte"
              style="background-image: url('assets/projects/unfallkarte.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
         <div class="project-body">
@@ -254,12 +346,12 @@
           </ul>
           <p class="project-links">
             <a href="https://github.com/vizsim/unfallkarte" target="_blank" rel="noopener noreferrer">Code</a>
-            <a href="https://vizsim.github.io/unfallkarte/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+            <a href="https://vizsim.de/unfallkarte/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
           </p>
         </div>
       </article>
 
-      <article class="project">
+      <article class="project" id="gradients2osm">
         <div class="project-media" role="img" aria-label="Vorschau: gradients2osm"
              style="background-image: url('assets/projects/gradients2osm.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
         <div class="project-body">
@@ -278,12 +370,12 @@
           </ul>
           <p class="project-links">
             <a href="https://github.com/vizsim/gradients2osm" target="_blank" rel="noopener noreferrer">Code</a>
-            <a href="https://vizsim.github.io/gradients2osm/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+            <a href="https://vizsim.de/gradients2osm/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
           </p>
         </div>
       </article>
 
-      <article class="project">
+      <article class="project" id="pseudo-luftbild">
         <div class="project-media contain" role="img" aria-label="Vorschau: Pseudo-Luftbild — orthorektifiziertes Fahrbahn-Mosaik"
              style="background-image: url('assets/projects/pseudo-luftbild.jpg');"></div>
         <div class="project-body">
@@ -305,7 +397,7 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project" id="missing-mapillary">
         <div class="project-media" role="img" aria-label="Vorschau: Missing Mapillary Routing"
              style="background-image: url('assets/projects/missing-mapillary.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
         <div class="project-body">
@@ -323,7 +415,207 @@
           </ul>
           <p class="project-links">
             <a href="https://github.com/vizsim/missing_mapillary_gh-routing" target="_blank" rel="noopener noreferrer">Code</a>
-            <a href="https://vizsim.github.io/missing_mapillary_gh-routing/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+            <a href="https://vizsim.de/missing_mapillary_gh-routing/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="miso">
+        <div class="project-media" role="img" aria-label="Vorschau: Miso — Isochronen"
+             style="background-image: url('assets/projects/miso.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
+        <div class="project-body">
+          <span class="project-index">05</span>
+          <h2>Miso</h2>
+          <p>
+            Web-App zur Berechnung und Darstellung von Isochronen — also Flächen, die in
+            einer bestimmten Zeit erreichbar sind. Straße über GraphHopper, ÖPNV (approximiert)
+            über Transitous, POIs über Overpass; Export als GeoJSON.
+          </p>
+          <ul class="tags">
+            <li>Isochronen</li>
+            <li>MapLibre</li>
+            <li>GraphHopper</li>
+            <li>ÖPNV</li>
+            <li>OSM</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/miso" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/miso/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="routing-bulk">
+        <div class="project-media" role="img" aria-label="Vorschau: Bulk-Router"
+             style="background-image: url('assets/projects/routing-bulk.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
+        <div class="project-body">
+          <span class="project-index">06</span>
+          <h2>Bulk-Router</h2>
+          <p>
+            Routet von vielen — zufällig erzeugten — Startpunkten zu einem Ziel und stellt das
+            Ergebnis aggregiert und farbcodiert dar (viridis/plasma). Anwendungsbeispiel:
+            Schulwegmodellierung, viele Wohnorte zu einer Schule. GraphHopper-API, Export als GeoJSON.
+          </p>
+          <ul class="tags">
+            <li>Routing</li>
+            <li>GraphHopper</li>
+            <li>MapLibre</li>
+            <li>OSM</li>
+            <li>Visualisierung</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/routing_bulk" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/routing_bulk/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="mapillary-coverage">
+        <div class="project-media" role="img" aria-label="Vorschau: Mapillary Coverage Pipeline"
+             style="background-image: url('assets/projects/mapillary-coverage.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
+        <div class="project-body">
+          <span class="project-index">07</span>
+          <h2>Mapillary Coverage</h2>
+          <p>
+            CLI-Pipeline, die deutschlandweit ermittelt, welche Straßen Mapillary-Abdeckung haben
+            (Pano oder Regulär) — mit rollierendem 30-Monats-Cutoff, 10-Meter-Puffer und einer
+            Schwelle von mindestens 60 % Abdeckung.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>Mapillary</li>
+            <li>OSM</li>
+            <li>Pipeline</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/mapillary_coverage" target="_blank" rel="noopener noreferrer">Code</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="mapillary-coverage-analysis">
+        <div class="project-media" role="img" aria-label="Vorschau: Mapillary Coverage Analysis"
+             style="background-image: url('assets/projects/mapillary-coverage-analysis.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
+        <div class="project-body">
+          <span class="project-index">08</span>
+          <h2>Mapillary Coverage Analysis</h2>
+          <p>
+            Interaktive Karte zur Mapillary-Abdeckung auf Hauptstraßen in Deutschland: je nach Zoom
+            Bundesländer, Landkreise oder Gemeinden, dazu Segmente mit Pano-, Regulär- oder fehlender
+            Abdeckung sowie erkannte Verkehrszeichen. Python-Preprocessing mit MapLibre-Viewer.
+          </p>
+          <ul class="tags">
+            <li>Mapillary</li>
+            <li>MapLibre</li>
+            <li>OSM</li>
+            <li>Analyse</li>
+            <li>Verkehrszeichen</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/mapillary_coverage_analysis" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/mapillary_coverage_analysis/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="mapillary-trafficsigns">
+        <div class="project-media" role="img" aria-label="Vorschau: Mapillary Trafficsigns"
+             style="background-image: url('assets/projects/mapillary-trafficsigns.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
+        <div class="project-body">
+          <span class="project-index">09</span>
+          <h2>Mapillary Trafficsigns</h2>
+          <p>
+            Download und Verarbeitung von Verkehrszeichen-Detektionen und Fahrbahnmarkierungen aus
+            Mapillary (Deutschland) — als Grundlage für OSM-Mapping, etwa fehlende Radwege oder
+            Querungen. Wird regelmäßig aktualisiert.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>Mapillary</li>
+            <li>Verkehrszeichen</li>
+            <li>OSM</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/mapillary_trafficsigns" target="_blank" rel="noopener noreferrer">Code</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="osm-trafficsigns">
+        <div class="project-media" role="img" aria-label="Vorschau: OSM Trafficsigns"
+             style="background-image: url('assets/projects/osm-trafficsigns.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
+        <div class="project-body">
+          <span class="project-index">10</span>
+          <h2>OSM Trafficsigns</h2>
+          <p>
+            Pure-Python-Reimplementierung von SupaplexOSM/traffic_sign_processing: extrahiert
+            Standorte und Richtungen von Verkehrszeichen aus .osm.pbf (pyosmium, GeoPandas) nach
+            GeoParquet — dazu ein MapLibre-Viewer und ein QGIS-Style.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>OSM</li>
+            <li>Verkehrszeichen</li>
+            <li>pyosmium</li>
+            <li>MapLibre</li>
+            <li>QGIS</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/osm_trafficsigns" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/osm_trafficsigns/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="nettobreite">
+        <div class="project-media" role="img" aria-label="Vorschau: Nettobreite"
+             style="background-image: url('assets/projects/nettobreite.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
+        <div class="project-body">
+          <span class="project-index">11</span>
+          <h2>Nettobreite</h2>
+          <p>
+            Visualisierung der Straßennettobreite aus OSM-Daten zusammen mit dem Cycling Quality
+            Index: Überholbreite für den Radverkehr, faktische Überholverbote und QA für OSM-Tags
+            wie <code>width</code> und <code>parking</code>. PMTiles plus MapLibre.
+          </p>
+          <ul class="tags">
+            <li>OSM</li>
+            <li>MapLibre</li>
+            <li>Radverkehr</li>
+            <li>CQI</li>
+            <li>Nettobreite</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/nettobreite" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/nettobreite/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
+          </p>
+        </div>
+      </article>
+
+      <article class="project" id="osm-hashtag-analyse">
+        <div class="project-media" role="img" aria-label="Vorschau: OSM Hashtag-Analyse"
+             style="background-image: url('assets/projects/osm-hashtag-analyse.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
+        <div class="project-body">
+          <span class="project-index">12</span>
+          <h2>OSM Hashtag-Analyse</h2>
+          <p>
+            Interaktive Analyse, wie sich OSM-Radinfrastruktur durch Edits mit dem Hashtag
+            <code>#missing-cw_mapillary-signs</code> entwickelt hat — was neu entstand und was nur
+            präzisiert wurde. Gekoppeltes Sankey-Diagramm und MapLibre-Karte; Datenbasis ist die
+            ohsome-planet Full-History.
+          </p>
+          <ul class="tags">
+            <li>OSM</li>
+            <li>Mapillary</li>
+            <li>Radverkehr</li>
+            <li>Changesets</li>
+            <li>ohsome</li>
+            <li>MapLibre</li>
+            <li>Analyse</li>
+          </ul>
+          <p class="project-links">
+            <a href="https://github.com/vizsim/osm_hashtag_analyse" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://vizsim.de/osm_hashtag_analyse/analysen/cw_miss/viz/" target="_blank" rel="noopener noreferrer">Live ansehen</a>
           </p>
         </div>
       </article>
@@ -331,8 +623,31 @@
     </main>
 
     <footer>
-      <p>Weitere Projekte entstehen nach und nach</p>
+      <p>Weitere Projekte entstehen nach und nach.</p>
+      <p class="footer-note">Privates, nicht-kommerzielles Projekt. Keine Auftragsannahme.</p>
     </footer>
   </div>
+
+  <script>
+    // Anker-Link je Projekt: kleines Symbol links der Überschrift, Klick setzt den URL-Hash.
+    const LINK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+
+    document.querySelectorAll(".project[id]").forEach((article) => {
+      const h2 = article.querySelector("h2");
+      if (!h2) return;
+
+      const anchor = document.createElement("a");
+      anchor.className = "anchor";
+      anchor.href = "#" + article.id;
+      anchor.setAttribute("aria-label", "Direktlink zu diesem Projekt");
+      anchor.innerHTML = LINK_ICON;
+      h2.prepend(anchor);
+
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault();
+        history.replaceState(null, "", "#" + article.id);
+      });
+    });
+  </script>
 </body>
 </html>
