@@ -189,15 +189,6 @@
       background-size: contain;
     }
 
-    .project-index {
-      display: block;
-      font-family: "Fraunces", serif;
-      font-size: 0.9rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.7rem;
-    }
-
     h2 {
       position: relative;
       font-family: "Fraunces", serif;
@@ -267,6 +258,64 @@
       background: var(--surface);
     }
 
+    /* Tags als Filter (per JS aktiviert) */
+    .tags.is-interactive li {
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tags.is-interactive li:hover {
+      color: var(--ink);
+      border-color: var(--muted);
+    }
+
+    .tags li.is-active,
+    .tags.is-interactive li.is-active:hover {
+      color: var(--paper);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .tags.is-interactive li:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Filterleiste */
+    .filterbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: clamp(2rem, 5vw, 3rem);
+      font-family: "Fraunces", serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .filterbar[hidden] { display: none; }
+
+    .filter-reset {
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-family: "Fraunces", serif;
+      font-size: 0.9rem;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .filter-reset:hover {
+      color: var(--paper);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .project[hidden] { display: none; }
+
     .project-links {
       display: flex;
       flex-wrap: wrap;
@@ -299,15 +348,30 @@
     }
 
     @media (max-width: 760px) {
+      .projects {
+        gap: clamp(2.5rem, 8vw, 3.5rem);
+      }
+
       .project {
         grid-template-columns: 1fr;
-        gap: 1.4rem;
+        gap: 1.1rem;
       }
 
       .project:nth-child(even) .project-media { order: 0; }
 
       .project-media {
         aspect-ratio: 16 / 10;
+      }
+
+      /* Schlichter Trenner zwischen den Projekten (nur mobil) */
+      .project:not(:first-child) {
+        border-top: 1px solid var(--rule);
+        padding-top: clamp(2.5rem, 8vw, 3.5rem);
+      }
+
+      .project.is-first-visible {
+        border-top: none;
+        padding-top: 0;
       }
     }
   </style>
@@ -332,7 +396,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Unfallkarte"
              style="background-image: url('assets/projects/unfallkarte.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
         <div class="project-body">
-          <span class="project-index">01</span>
           <h2>Unfallkarte</h2>
           <p>
             Eine interaktive Karte von polizeilich erfassten Verkehrsunfällen in Deutschland,
@@ -355,7 +418,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: gradients2osm"
              style="background-image: url('assets/projects/gradients2osm.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
         <div class="project-body">
-          <span class="project-index">02</span>
           <h2>gradients2osm</h2>
           <p>
             Berechnet Steigungen und Höhenmeter für OpenStreetMap-Wege aus digitalen
@@ -379,7 +441,6 @@
         <div class="project-media contain" role="img" aria-label="Vorschau: Pseudo-Luftbild — orthorektifiziertes Fahrbahn-Mosaik"
              style="background-image: url('assets/projects/pseudo-luftbild.jpg');"></div>
         <div class="project-body">
-          <span class="project-index">03</span>
           <h2>Pseudo-Luftbild</h2>
           <p>
             Verwandelt Mapillary-Straßenbilder in orthorektifizierte „Luftbilder" der Fahrbahn.
@@ -401,7 +462,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Missing Mapillary Routing"
              style="background-image: url('assets/projects/missing-mapillary.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
         <div class="project-body">
-          <span class="project-index">04</span>
           <h2>Missing Mapillary Router</h2>
           <p>
             Ein Router auf GraphHopper-Basis, der gezielt Straßen ohne Mapillary-Abdeckung
@@ -424,7 +484,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Miso — Isochronen"
              style="background-image: url('assets/projects/miso.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
         <div class="project-body">
-          <span class="project-index">05</span>
           <h2>Miso</h2>
           <p>
             Web-App zur Berechnung und Darstellung von Isochronen — also Flächen, die in
@@ -449,7 +508,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Bulk-Router"
              style="background-image: url('assets/projects/routing-bulk.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
         <div class="project-body">
-          <span class="project-index">06</span>
           <h2>Bulk-Router</h2>
           <p>
             Routet von vielen — zufällig erzeugten — Startpunkten zu einem Ziel und stellt das
@@ -474,7 +532,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Mapillary Coverage Pipeline"
              style="background-image: url('assets/projects/mapillary-coverage.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
         <div class="project-body">
-          <span class="project-index">07</span>
           <h2>Mapillary Coverage</h2>
           <p>
             CLI-Pipeline, die deutschlandweit ermittelt, welche Straßen Mapillary-Abdeckung haben
@@ -497,7 +554,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Mapillary Coverage Analysis"
              style="background-image: url('assets/projects/mapillary-coverage-analysis.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
         <div class="project-body">
-          <span class="project-index">08</span>
           <h2>Mapillary Coverage Analysis</h2>
           <p>
             Interaktive Karte zur Mapillary-Abdeckung auf Hauptstraßen in Deutschland: je nach Zoom
@@ -522,7 +578,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Mapillary Trafficsigns"
              style="background-image: url('assets/projects/mapillary-trafficsigns.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
         <div class="project-body">
-          <span class="project-index">09</span>
           <h2>Mapillary Trafficsigns</h2>
           <p>
             Download und Verarbeitung von Verkehrszeichen-Detektionen und Fahrbahnmarkierungen aus
@@ -545,7 +600,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: OSM Trafficsigns"
              style="background-image: url('assets/projects/osm-trafficsigns.jpg'), linear-gradient(135deg, #f3ead9, #e3d3c9);"></div>
         <div class="project-body">
-          <span class="project-index">10</span>
           <h2>OSM Trafficsigns</h2>
           <p>
             Pure-Python-Reimplementierung von SupaplexOSM/traffic_sign_processing: extrahiert
@@ -571,7 +625,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: Nettobreite"
              style="background-image: url('assets/projects/nettobreite.jpg'), linear-gradient(135deg, #f4ede1, #e7d6c4);"></div>
         <div class="project-body">
-          <span class="project-index">11</span>
           <h2>Nettobreite</h2>
           <p>
             Visualisierung der Straßennettobreite aus OSM-Daten zusammen mit dem Cycling Quality
@@ -596,7 +649,6 @@
         <div class="project-media" role="img" aria-label="Vorschau: OSM Hashtag-Analyse"
              style="background-image: url('assets/projects/osm-hashtag-analyse.jpg'), linear-gradient(135deg, #f1ebde, #ddd1bd);"></div>
         <div class="project-body">
-          <span class="project-index">12</span>
           <h2>OSM Hashtag-Analyse</h2>
           <p>
             Interaktive Analyse, wie sich OSM-Radinfrastruktur durch Edits mit dem Hashtag
@@ -632,22 +684,112 @@
     // Anker-Link je Projekt: kleines Symbol links der Überschrift, Klick setzt den URL-Hash.
     const LINK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
 
-    document.querySelectorAll(".project[id]").forEach((article) => {
-      const h2 = article.querySelector("h2");
-      if (!h2) return;
+    const projects = Array.from(document.querySelectorAll(".project"));
 
+    projects.forEach((article) => {
+      const h2 = article.querySelector("h2");
+      if (!h2 || !article.id) return;
       const anchor = document.createElement("a");
       anchor.className = "anchor";
       anchor.href = "#" + article.id;
       anchor.setAttribute("aria-label", "Direktlink zu diesem Projekt");
       anchor.innerHTML = LINK_ICON;
       h2.prepend(anchor);
-
       anchor.addEventListener("click", (e) => {
         e.preventDefault();
         history.replaceState(null, "", "#" + article.id);
       });
     });
+
+    // --- Buzzword-Filter (Einfachauswahl) ---
+    const norm = (s) => s.trim().toLowerCase();
+    const display = new Map();              // norm -> Anzeigetext
+    const tagsOf = new Map();               // project -> Set(norm)
+
+    projects.forEach((article) => {
+      const set = new Set();
+      const ul = article.querySelector(".tags");
+      if (ul) {
+        ul.classList.add("is-interactive");
+        ul.querySelectorAll("li").forEach((li) => {
+          const key = norm(li.textContent);
+          set.add(key);
+          if (!display.has(key)) display.set(key, li.textContent.trim());
+          li.dataset.tag = key;
+          li.setAttribute("role", "button");
+          li.setAttribute("tabindex", "0");
+          li.setAttribute("aria-pressed", "false");
+          li.title = "Nach „" + li.textContent.trim() + "“ filtern";
+        });
+      }
+      tagsOf.set(article, set);
+    });
+
+    // Filterleiste vor die Projektliste setzen
+    const main = document.querySelector(".projects");
+    const bar = document.createElement("div");
+    bar.className = "filterbar";
+    bar.hidden = true;
+    bar.innerHTML = '<span class="filter-label"></span>' +
+                    '<button class="filter-reset" type="button">Alle anzeigen ✕</button>';
+    main.parentNode.insertBefore(bar, main);
+    const label = bar.querySelector(".filter-label");
+    bar.querySelector(".filter-reset").addEventListener("click", () => applyFilter(null));
+
+    let active = null;
+
+    function applyFilter(tag, updateHash = true) {
+      active = tag;
+      let visible = 0;
+      let firstVisible = null;
+      projects.forEach((article) => {
+        const show = !tag || tagsOf.get(article).has(tag);
+        article.hidden = !show;
+        if (show) { visible++; if (!firstVisible) firstVisible = article; }
+      });
+
+      projects.forEach((a) => a.classList.remove("is-first-visible"));
+      if (firstVisible) firstVisible.classList.add("is-first-visible");
+
+      document.querySelectorAll(".tags li").forEach((li) => {
+        const on = tag && li.dataset.tag === tag;
+        li.classList.toggle("is-active", !!on);
+        li.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+
+      if (tag) {
+        const name = display.get(tag) || tag;
+        const word = visible === 1 ? "Projekt" : "Projekte";
+        label.textContent = "Gefiltert nach „" + name + "“ · " + visible + " " + word;
+        bar.hidden = false;
+      } else {
+        bar.hidden = true;
+      }
+
+      if (updateHash) {
+        if (tag) history.replaceState(null, "", "#tag=" + encodeURIComponent(tag));
+        else history.replaceState(null, "", location.pathname);
+      }
+    }
+
+    function onTag(li) {
+      const tag = li.dataset.tag;
+      applyFilter(active === tag ? null : tag);
+    }
+
+    document.querySelectorAll(".tags li").forEach((li) => {
+      li.addEventListener("click", () => onTag(li));
+      li.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onTag(li); }
+      });
+    });
+
+    // Filter aus dem URL-Hash übernehmen (#tag=...)
+    const m = location.hash.match(/^#tag=(.+)$/);
+    if (m) {
+      const t = norm(decodeURIComponent(m[1]));
+      if (display.has(t)) applyFilter(t, false);
+    }
   </script>
 </body>
 </html>
